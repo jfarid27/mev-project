@@ -1,0 +1,22 @@
+{
+  "name": "mev-project",
+  "version": "0.0.1",
+  "description": "",
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "requirejs": "~2.1.14",
+    "async": "^0.9.0",
+    "gulp-util": "^3.0.2",
+    "mkdirp": "^0.5.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gulp": "gulp"
+  },
+  "author": {
+    "name": "J. Farid",
+    "email": "jrab227@gmail.com",
+    "url": "http://github.com/jfarid27"
+  },
+  "license": "MIT"
+}

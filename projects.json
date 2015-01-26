@@ -1,0 +1,14 @@
+{
+  "modules": [
+
+    {
+      "project":"gulptester",
+      "directory":"./gulptester"
+    },
+    {
+      "project":"gulptester2",
+      "directory":"./gulptester2"
+    }
+
+  ]
+}

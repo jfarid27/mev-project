@@ -5,7 +5,7 @@ var gulp = require('gulp'),
     async = require('async'),
     mkdirp = require('mkdirp')
 
-gulp.task('testSubs', [], function(done){
+gulp.task('testSubs', ['loadSubs'], function(done){
     //Tests sub projects
     
     var projects = require('./projects.json')
@@ -59,7 +59,7 @@ gulp.task('test',['testSubs'], function (done) {
    return 
 });
 
-gulp.task('build', [], function(done){
+gulp.task('build', ['loadSubs'], function(done){
     var projects = require('./projects.json')
     
     var iter = function(project, cb){
@@ -167,6 +167,42 @@ gulp.task('build', [], function(done){
     }
     
     async.each(projects['modules'], iter, build)
+})
+
+gulp.task('loadSubs', function(done){
+   var projects = require('./projects.json')
+
+   var iter = function(project, cb){
+
+      var cwd = project.directory;
+
+      gutil.log("Beginning loading for " + project.project)
+
+      execute('npm install', {cwd: cwd},
+      function(err, stdout, stderr){
+          gutil.log(stdout.toString('ascii'))
+
+          if(err){
+            cb(err)
+            return
+          } else {
+            gutil.log("Load complete for " + project.project)
+          }
+
+          cb(null)
+      })
+   })
+   
+    async.each(projects['modules'], iter, function(err){
+
+       if(err){
+         throw err
+       }
+
+       done()
+
+    })
+
 })
 
 gulp.task('clean', function(done){

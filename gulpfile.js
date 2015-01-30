@@ -183,16 +183,16 @@ gulp.task('loadSubs', function(done){
           gutil.log(stdout.toString('ascii'))
 
           if(err){
-            cb(err)
-            return
+            gutil.log("Error in npm install for " + project.project)
+            gutil.log(err.message)
           } else {
             gutil.log("Load complete for " + project.project)
           }
 
           cb(null)
       })
-   })
-   
+   }
+
     async.each(projects['modules'], iter, function(err){
 
        if(err){

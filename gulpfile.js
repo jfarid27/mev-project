@@ -5,7 +5,7 @@ var gulp = require('gulp'),
     async = require('async'),
     mkdirp = require('mkdirp')
 
-gulp.task('testSubs', ['loadSubs'], function(done){
+gulp.task('testSubs', [], function(done){
     //Tests sub projects
     
     var projects = require('./projects.json')
@@ -59,7 +59,7 @@ gulp.task('test',['testSubs'], function (done) {
    return 
 });
 
-gulp.task('build', ['loadSubs'], function(done){
+gulp.task('build', ['loadBower'], function(done){
     var projects = require('./projects.json')
     
     var iter = function(project, cb){
@@ -187,6 +187,43 @@ gulp.task('loadSubs', function(done){
             gutil.log(err.message)
           } else {
             gutil.log("Load complete for " + project.project)
+          }
+
+          cb(null)
+      })
+   }
+
+    async.each(projects['modules'], iter, function(err){
+
+       if(err){
+         throw err
+       }
+
+       done()
+
+    })
+
+})
+
+gulp.task('loadBower',['loadSubs'], function(done){
+
+   var projects = require('./projects.json')
+
+   var iter = function(project, cb){
+
+      var cwd = project.directory;
+
+      gutil.log("Beginning bower loading for " + project.project)
+
+      execute('gulp loadBower', {cwd: cwd},
+      function(err, stdout, stderr){
+          gutil.log(stdout.toString('ascii'))
+
+          if(err){
+            gutil.log("Error in bower install for " + project.project)
+            gutil.log(err.message)
+          } else {
+            gutil.log("Bower loading complete for " + project.project)
           }
 
           cb(null)
